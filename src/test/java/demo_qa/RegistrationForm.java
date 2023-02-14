@@ -13,8 +13,9 @@ public class RegistrationForm {
     String name = "Boris";
     String surname = "Moiseev";
     String email = "leningrad@gmail.com";
+    String gender = "Male";
     String digits = "0987654321";
-    String subject = "QA";
+    String subject = "Computer Science";
     String address = "Ulitsa Pushkina, dom Kolotushkina";
     String monthOfBirth = "July";
     String yearOfBirth = "1977";
@@ -34,13 +35,13 @@ public class RegistrationForm {
         $("#firstName").setValue(name);
         $("#lastName").setValue(surname);
         $("#userEmail").setValue(email);
-        $("#gender-radio-1").parent().click();
+        $("#genterWrapper").$(byText(gender)).click();
         $("#userNumber").setValue(digits);
         $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOption(monthOfBirth);
         $(".react-datepicker__year-select").selectOption(yearOfBirth);
         $(".react-datepicker__day--003:not(.react-datepicker__day--outside-month)").click();
-        $("#subjectsInput").setValue(subject);
+        $("#subjectsInput").setValue(subject).pressEnter();
         $("#hobbiesWrapper").$(byText("Sports")).click();
         $("#uploadPicture").uploadFromClasspath("photo/image.png");
         $("#currentAddress").setValue(address);
@@ -54,7 +55,14 @@ public class RegistrationForm {
         $(".modal-header").shouldHave(text("Thanks for submitting the form"));
         $(".table-responsive").shouldHave(text("Ulitsa Pushkina, dom Kolotushkina"),
                 text("leningrad@gmail.com"),
-                text("0987654321"));
+                text("0987654321"),
+                text("Male"),
+                text("Boris Moiseev"),
+                text("03 July,1977"),
+                text("image.png"),
+                text("Haryana Panipat"),
+                text("Computer Science"),
+                text("Sports"));
 
     }
 }
