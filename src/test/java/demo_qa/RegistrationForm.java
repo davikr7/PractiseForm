@@ -35,7 +35,7 @@ public class RegistrationForm extends TestBase {
                         .setHobbies(hobbies)
                         .uploadPicture(photo)
                         .setAddress(address)
-                        .setStateAndCity()
+                        .setStateAndCity(state, city)
                         .submit();
 
         registrationPage.verifyResultsModalAppears()

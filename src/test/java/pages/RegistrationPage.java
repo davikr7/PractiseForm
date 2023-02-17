@@ -26,7 +26,7 @@ public class RegistrationPage {
             hobbiesInput = $("#hobbiesWrapper"),
             uploadPicture = $("#uploadPicture"),
             addressInput = $("#currentAddress"),
-            stateCity = $("#stateCity-wrapper"),
+            stateAndCity = $("#stateCity-wrapper"),
             stateSelect = $("#state"),
             citySelect = $("#city"),
             submit = $("#submit");
@@ -94,11 +94,11 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setStateAndCity() {
+    public RegistrationPage setStateAndCity(String state, String city) {
         stateSelect.click();
-        stateCity.$(byText("Haryana")).click();
+        stateAndCity.$(byText(state)).click();
         citySelect.click();
-        stateCity.$(byText("Panipat")).click();
+        stateAndCity.$(byText(city)).click();
         return this;
     }
 
