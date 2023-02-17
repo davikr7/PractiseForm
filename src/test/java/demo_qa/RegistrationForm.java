@@ -1,14 +1,9 @@
 package demo_qa;
 
-import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
-
-public class RegistrationForm {
+public class RegistrationForm extends TestBase {
 
     String name = "Boris";
     String surname = "Moiseev";
@@ -16,53 +11,43 @@ public class RegistrationForm {
     String gender = "Male";
     String digits = "0987654321";
     String subject = "Computer Science";
+    String hobbies = "Sports";
     String address = "Ulitsa Pushkina, dom Kolotushkina";
     String monthOfBirth = "July";
     String yearOfBirth = "1977";
+    String dayOfBirth = "03";
+    String photo = "image.png";
+    String state = "Haryana";
+    String city = "Panipat";
 
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.holdBrowserOpen = true;
-        Configuration.baseUrl = "https://demoqa.com";
-    }
     @Test
     void fillRegForm() {
-        open("/automation-practice-form");
-        executeJavaScript("$('#fixedban').remove()");
-        executeJavaScript("$('footer').remove()");
 
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        $("#firstName").setValue(name);
-        $("#lastName").setValue(surname);
-        $("#userEmail").setValue(email);
-        $("#genterWrapper").$(byText(gender)).click();
-        $("#userNumber").setValue(digits);
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption(monthOfBirth);
-        $(".react-datepicker__year-select").selectOption(yearOfBirth);
-        $(".react-datepicker__day--003:not(.react-datepicker__day--outside-month)").click();
-        $("#subjectsInput").setValue(subject).pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFromClasspath("photo/image.png");
-        $("#currentAddress").setValue(address);
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText("Haryana")).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText("Panipat")).click();
-        $("#submit").click();
+        registrationPage.openPage()
+                        .checkTitle()
+                        .setFirstName(name)
+                        .setLastName(surname)
+                        .setEmail(email)
+                        .setGender(gender)
+                        .setNumber(digits)
+                        .setBirthDate(dayOfBirth, monthOfBirth, yearOfBirth)
+                        .setSubjects(subject)
+                        .setHobbies(hobbies)
+                        .uploadPicture(photo)
+                        .setAddress(address)
+                        .setStateAndCity()
+                        .submit();
 
-        $(".modal-dialog").should(appear);
-        $(".modal-header").shouldHave(text("Thanks for submitting the form"));
-        $(".table-responsive").shouldHave(text("Ulitsa Pushkina, dom Kolotushkina"),
-                text("leningrad@gmail.com"),
-                text("0987654321"),
-                text("Male"),
-                text("Boris Moiseev"),
-                text("03 July,1977"),
-                text("image.png"),
-                text("Haryana Panipat"),
-                text("Computer Science"),
-                text("Sports"));
-
+        registrationPage.verifyResultsModalAppears()
+                        .verifyResult("Student Name", name + " " + surname)
+                        .verifyResult("Student Email", email)
+                        .verifyResult("Gender", gender)
+                        .verifyResult("Mobile", digits)
+                        .verifyResult("Date of Birth", "03 July,1977")
+                        .verifyResult("Subjects", subject)
+                        .verifyResult("Hobbies", hobbies)
+                        .verifyResult("Picture", photo)
+                        .verifyResult("Address", address)
+                        .verifyResult("State and City", state + " " + city);
     }
 }
