@@ -1,7 +1,6 @@
-package demo_qa;
+package tests;
 
 import org.junit.jupiter.api.Test;
-import tests.TestBase;
 
 public class RegistrationForm extends TestBase {
 
